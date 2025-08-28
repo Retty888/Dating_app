@@ -13,6 +13,7 @@
     "@expo/vector-icons": "*",
     "@supabase/supabase-js": "*",
     "expo": "*",
+    "expo-image-picker": "*",
     "expo-router": "*",
     "expo-status-bar": "*",
     "react": "*",
