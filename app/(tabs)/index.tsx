@@ -1,10 +1,14 @@
 import { View, Text, Pressable, Image } from 'react-native';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import supabase from '../../lib/supabase';
 import { fetchCandidates } from '../../lib/api';
 
 export default function Discover() {
   const [i, setI] = useState(0);
   const [candidates, setCandidates] = useState<any[]>([]);
+  const [showMatch, setShowMatch] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     fetchCandidates().then(setCandidates).catch(() => setCandidates([]));
@@ -12,6 +16,29 @@ export default function Discover() {
 
   const c = candidates[i];
   const photo = c?.photo ?? c?.photos?.[0];
+
+  const handleLike = async () => {
+    if (!c) return;
+    try {
+      const { data, error } = await supabase.rpc('like_user', {
+        target_user_id: c.id,
+      });
+      if (error) {
+        console.error(error);
+      }
+      if (data?.match_id) {
+        setShowMatch(true);
+        setTimeout(() => {
+          setShowMatch(false);
+          router.push(`/chat/${data.match_id}`);
+        }, 1000);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setI((x) => Math.min(x + 1, candidates.length));
+    }
+  };
   return (
     <View style={{ flex: 1, padding: 16, gap: 16, justifyContent: 'center' }}>
       <Text style={{ fontSize: 24, fontWeight: '600' }}>Discover</Text>
@@ -52,12 +79,27 @@ export default function Discover() {
           <Text>Skip</Text>
         </Pressable>
         <Pressable
-          onPress={() => setI((x) => Math.min(x + 1, candidates.length))}
+          onPress={handleLike}
           style={{ padding: 12, backgroundColor: '#5dbea3', borderRadius: 12 }}
         >
           <Text>Like</Text>
         </Pressable>
       </View>
+      {showMatch && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: '#5dbea3',
+            padding: 12,
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ fontWeight: '600' }}>Новый матч</Text>
+        </View>
+      )}
     </View>
   );
 }
