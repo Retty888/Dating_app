@@ -1,31 +1,33 @@
-import { StyleSheet } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
+import { useState } from 'react';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+const MOCK = [
+  { id: 'u1', name: 'Anna, 24', about: 'Кино, кошки, кофе' },
+  { id: 'u2', name: 'Mia, 23', about: 'Йога, море, вино' },
+];
 
-export default function TabOneScreen() {
+export default function Discover() {
+  const [i, setI] = useState(0);
+  const c = MOCK[i];
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View style={{ flex: 1, padding: 16, gap: 16, justifyContent: 'center' }}>
+      <Text style={{ fontSize: 24, fontWeight: '600' }}>Discover</Text>
+      {c ? (
+        <View style={{ padding: 16, borderRadius: 16, backgroundColor: '#222' }}>
+          <Text style={{ fontSize: 20, marginBottom: 8 }}>{c.name}</Text>
+          <Text style={{ opacity: 0.7 }}>{c.about}</Text>
+        </View>
+      ) : (
+        <Text>Больше кандидатов нет</Text>
+      )}
+      <View style={{ flexDirection: 'row', gap: 12 }}>
+        <Pressable onPress={() => setI((x) => Math.min(x + 1, MOCK.length))} style={{ padding: 12, backgroundColor: '#444', borderRadius: 12 }}>
+          <Text>Skip</Text>
+        </Pressable>
+        <Pressable onPress={() => setI((x) => Math.min(x + 1, MOCK.length))} style={{ padding: 12, backgroundColor: '#5dbea3', borderRadius: 12 }}>
+          <Text>Like</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
