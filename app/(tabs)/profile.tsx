@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Image } from 'react-native';
+import { View, Text, TextInput, Button, Image, useWindowDimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
@@ -7,6 +7,8 @@ import { useAuth } from '../../lib/auth';
 export default function Profile() {
   const { session } = useAuth();
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
   useEffect(() => {
     if (!session?.user) return;
@@ -57,7 +59,12 @@ export default function Profile() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16, gap: 12 }}>
+    <View
+      style={[
+        { flex: 1, padding: 16, gap: 12, width: '100%' },
+        isDesktop && { maxWidth: 600, alignSelf: 'center' },
+      ]}
+    >
       <Text style={{ fontSize: 24, fontWeight: '600' }}>Your profile</Text>
       {photoUrl && (
         <Image
