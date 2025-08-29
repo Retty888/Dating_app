@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from 'react-native';
+import { View, Text, Pressable, Image, useWindowDimensions } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
@@ -10,6 +10,8 @@ export default function Discover() {
   const [candidates, setCandidates] = useState<Profile[]>([]);
   const [showMatch, setShowMatch] = useState(false);
   const router = useRouter();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
   useEffect(() => {
     const filters = {
@@ -48,10 +50,26 @@ export default function Discover() {
     }
   };
   return (
-    <View style={{ flex: 1, padding: 16, gap: 16, justifyContent: 'center' }}>
+    <View
+      style={[
+        {
+          flex: 1,
+          padding: 16,
+          gap: 16,
+          justifyContent: 'center',
+          width: '100%',
+        },
+        isDesktop && { maxWidth: 600, alignSelf: 'center' },
+      ]}
+    >
       <Text style={{ fontSize: 24, fontWeight: '600' }}>Discover</Text>
       {c ? (
-        <View style={{ padding: 16, borderRadius: 16, backgroundColor: '#222' }}>
+        <View
+          style={[
+            { padding: 16, borderRadius: 16, backgroundColor: '#222', width: '100%' },
+            isDesktop && { maxWidth: 600, alignSelf: 'center' },
+          ]}
+        >
           {photo ? (
             <Image
               source={{ uri: photo }}

@@ -3,6 +3,7 @@ import { View, Text, FlatList, TextInput, Pressable } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
+import { aiIcebreaker } from '../../lib/api';
 
 interface Message {
   id: string;
@@ -18,6 +19,7 @@ export default function Chat() {
   const { session } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
+  const [icebreaker, setIcebreaker] = useState<string | null>(null);
 
   useEffect(() => {
     if (!matchId) return;
@@ -57,10 +59,28 @@ export default function Chat() {
     setText('');
   };
 
+  useEffect(() => {
+    if (!matchId) return;
+    aiIcebreaker(matchId).then(setIcebreaker).catch(console.error);
+  }, [matchId]);
+
   return (
     <View style={{ flex: 1, padding: 16 }}>
       <FlatList
-        data={messages}
+        data={
+          icebreaker
+            ? [
+                {
+                  id: 'ai-icebreaker',
+                  match_id: matchId || '',
+                  sender: 'ai',
+                  content: icebreaker,
+                  created_at: new Date().toISOString(),
+                },
+                ...messages,
+              ]
+            : messages
+        }
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={{ marginBottom: 8 }}>
