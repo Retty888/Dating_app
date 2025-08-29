@@ -1,3 +1,5 @@
+import supabase from './supabase';
+
 export async function fetchCandidates() {
   // TODO: заменить на вызов Edge Function с фильтрами по локации/целям/времени
   return [
@@ -6,6 +8,9 @@ export async function fetchCandidates() {
 }
 
 export async function aiIcebreaker(matchId: string) {
-  // TODO: серверная функция, генерирующая "ледокол" от ИИ‑медиатора
-  return 'Кажется, вы оба любите вечерние прогулки и кино. Что смотрели недавно?';
+  const { data, error } = await supabase.functions.invoke('ai/icebreaker', {
+    body: { matchId },
+  });
+  if (error) throw error;
+  return (data as { icebreaker: string }).icebreaker;
 }
