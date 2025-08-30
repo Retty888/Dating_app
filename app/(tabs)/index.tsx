@@ -3,17 +3,25 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { fetchCandidates } from '../../lib/api';
+import type { Profile } from '../../lib/types';
 
 export default function Discover() {
   const [i, setI] = useState(0);
-  const [candidates, setCandidates] = useState<any[]>([]);
+  const [candidates, setCandidates] = useState<Profile[]>([]);
   const [showMatch, setShowMatch] = useState(false);
   const router = useRouter();
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
 
   useEffect(() => {
-    fetchCandidates().then(setCandidates).catch(() => setCandidates([]));
+    const filters = {
+      location: 'Moscow',
+      goals: [],
+      time: new Date().toISOString(),
+    };
+    fetchCandidates(filters)
+      .then(setCandidates)
+      .catch(() => setCandidates([]));
   }, []);
 
   const c = candidates[i];
