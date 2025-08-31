@@ -14,7 +14,14 @@ export default function Discover() {
   const isDesktop = width >= 768;
 
   useEffect(() => {
-    fetchCandidates().then(setCandidates).catch(() => setCandidates([]));
+    const filters = {
+      location: 'Moscow',
+      goals: [],
+      time: new Date().toISOString(),
+    };
+    fetchCandidates(filters)
+      .then(setCandidates)
+      .catch(() => setCandidates([]));
   }, []);
 
   const c = candidates[i];
