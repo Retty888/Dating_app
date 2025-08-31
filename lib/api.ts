@@ -1,4 +1,7 @@
 import supabase from './supabase';
+import { sampleProfiles } from './sample-data';
+
+const USE_SAMPLE_DATA = process.env.EXPO_PUBLIC_USE_SAMPLE_DATA === 'true';
 
 export interface CandidateFilters {
   /**
@@ -22,19 +25,23 @@ export interface CandidateFilters {
  * @throws {Error} When the request fails or the backend returns an error.
  */
 export async function fetchCandidates(filters: CandidateFilters = {}) {
+  if (USE_SAMPLE_DATA) {
+    return sampleProfiles;
+  }
   try {
     const { data, error } = await supabase.functions.invoke('fetch-candidates', {
       body: filters,
     });
 
     if (error) {
-      throw new Error(error.message || 'Unknown error');
+      console.error(error);
+      return sampleProfiles;
     }
 
     return data as any[];
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    throw new Error(`Failed to fetch candidates: ${message}`);
+    console.error(err);
+    return sampleProfiles;
   }
 }
 

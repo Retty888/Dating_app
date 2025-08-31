@@ -86,6 +86,11 @@ export default function Discover() {
           )}
           <Text style={{ fontSize: 20, marginBottom: 8 }}>{c.name ?? 'Без имени'}</Text>
           <Text style={{ opacity: 0.7 }}>{c.bio ?? 'Нет информации о себе'}</Text>
+          {c.coordinates && (
+            <Text style={{ opacity: 0.7 }}>
+              {`Координаты: ${c.coordinates.lat}, ${c.coordinates.lng}`}
+            </Text>
+          )}
         </View>
       ) : (
         <Text>Больше кандидатов нет</Text>
