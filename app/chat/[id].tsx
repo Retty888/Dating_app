@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput, Pressable } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { aiIcebreaker } from '../../lib/api';
@@ -11,6 +11,7 @@ const demoMode = process.env.EXPO_PUBLIC_DEMO_MODE === 'true';
 export default function Chat() {
   const { id } = useLocalSearchParams();
   const matchId = Array.isArray(id) ? id[0] : id;
+  const router = useRouter();
   const { session } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
@@ -63,6 +64,21 @@ export default function Chat() {
     setText('');
   };
 
+  const deleteChat = async () => {
+    if (!matchId) return;
+    if (demoMode) {
+      setMessages([]);
+      router.back();
+      return;
+    }
+    await supabase.from('messages').delete().eq('match_id', matchId);
+    router.back();
+  };
+
+  const exitChat = () => {
+    router.back();
+  };
+
   useEffect(() => {
     if (!matchId) return;
     aiIcebreaker(matchId).then(setIcebreaker).catch(console.error);
@@ -70,6 +86,30 @@ export default function Chat() {
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
+      <View style={{ flexDirection: 'row', gap: 8, marginBottom: 16 }}>
+        <Pressable
+          onPress={deleteChat}
+          style={{
+            flex: 1,
+            padding: 12,
+            borderRadius: 12,
+            backgroundColor: '#ff6b6b',
+          }}
+        >
+          <Text style={{ textAlign: 'center' }}>Удалить сообщение</Text>
+        </Pressable>
+        <Pressable
+          onPress={exitChat}
+          style={{
+            flex: 1,
+            padding: 12,
+            borderRadius: 12,
+            backgroundColor: '#5dbea3',
+          }}
+        >
+          <Text style={{ textAlign: 'center' }}>Выход из чата</Text>
+        </Pressable>
+      </View>
       <FlatList
         data={
           icebreaker
