@@ -66,6 +66,34 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="profileChat"
+        options={{
+          title: 'Profile Chat',
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="searchChat"
+        options={{
+          title: 'Search Chat',
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="mapChat"
+        options={{
+          title: 'Map Chat',
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="settingsChat"
+        options={{
+          title: 'Settings Chat',
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
