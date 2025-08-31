@@ -4,7 +4,19 @@
     "slug": "ai-dating-mediator",
     "scheme": "datingapp",
     "plugins": ["expo-router"],
-    "android": { "package": "com.example.aidatingmediator" },
-    "ios": { "bundleIdentifier": "com.example.aidatingmediator" }
+    "android": {
+      "package": "com.example.aidatingmediator",
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+        }
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.example.aidatingmediator",
+      "config": {
+        "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+      }
+    }
   }
 }
