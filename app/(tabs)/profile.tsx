@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TextInput, Button, Image, useWindowDimensions, Alert } from 'react-native';
+import { TextInput, Button, Image, useWindowDimensions, Alert, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
@@ -16,6 +16,12 @@ export default function Profile() {
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
   const colorScheme = useColorScheme() ?? 'light';
+  const exampleImages = [
+    'https://via.placeholder.com/120/ff4444/ffffff',
+    'https://via.placeholder.com/120/44ff44/ffffff',
+    'https://via.placeholder.com/120/4444ff/ffffff',
+    'https://via.placeholder.com/120/ffff44/000000',
+  ];
 
   useEffect(() => {
     if (!session?.user) return;
@@ -129,6 +135,23 @@ export default function Profile() {
           style={{ width: 120, height: 120, borderRadius: 60 }}
         />
       )}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 12, marginBottom: 12 }}
+      >
+        {exampleImages.map((img, index) => (
+          <Image
+            key={index}
+            source={{ uri: img }}
+            style={{
+              width: isDesktop ? 120 : 80,
+              height: isDesktop ? 120 : 80,
+              borderRadius: isDesktop ? 60 : 40,
+            }}
+          />
+        ))}
+      </ScrollView>
       <Button title="Upload photo" onPress={pickImage} />
       {photoUrl && (
         <Button title="Удалить фото" color={Colors[colorScheme].danger} onPress={deletePhoto} />
