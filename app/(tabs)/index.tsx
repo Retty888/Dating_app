@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { fetchCandidates } from '../../lib/api';
+import type { Profile } from '../../lib/types';
 
 export default function Discover() {
   const [i, setI] = useState(0);
-  const [candidates, setCandidates] = useState<any[]>([]);
+  const [candidates, setCandidates] = useState<Profile[]>([]);
   const [showMatch, setShowMatch] = useState(false);
   const router = useRouter();
   const { width } = useWindowDimensions();
@@ -17,7 +18,7 @@ export default function Discover() {
   }, []);
 
   const c = candidates[i];
-  const photo = c?.photo ?? c?.photos?.[0];
+  const photo = c?.photos?.[0];
 
   const handleLike = async () => {
     if (!c) return;
@@ -84,7 +85,7 @@ export default function Discover() {
             </View>
           )}
           <Text style={{ fontSize: 20, marginBottom: 8 }}>{c.name ?? 'Без имени'}</Text>
-          <Text style={{ opacity: 0.7 }}>{c.about ?? c.bio ?? 'Нет информации о себе'}</Text>
+          <Text style={{ opacity: 0.7 }}>{c.bio ?? 'Нет информации о себе'}</Text>
         </View>
       ) : (
         <Text>Больше кандидатов нет</Text>
