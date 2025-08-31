@@ -101,6 +101,16 @@ export default function Profile() {
     setPhotoUrl(publicUrl);
   };
 
+  const deletePhoto = async () => {
+    if (!session?.user || !photoUrl) return;
+    const path = photoUrl.split('/profile-photos/')[1];
+    if (path) {
+      await supabase.storage.from('profile-photos').remove([path]);
+    }
+    await supabase.from('photos').delete().eq('user_id', session.user.id);
+    setPhotoUrl(null);
+  };
+
   return (
     <View
       style={[
@@ -116,6 +126,9 @@ export default function Profile() {
         />
       )}
       <Button title="Upload photo" onPress={pickImage} />
+      {photoUrl && (
+        <Button title="Удалить фото" color="#ff6b6b" onPress={deletePhoto} />
+      )}
       <TextInput
         placeholder="Имя"
         value={name}
@@ -145,6 +158,7 @@ export default function Profile() {
           Alert.alert('Success', 'Профиль сохранён');
         }
       }} />
+      <Button title="Выйти из профиля" color="#ff6b6b" onPress={() => supabase.auth.signOut()} />
     </View>
   );
 }
