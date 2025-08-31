@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Image, useWindowDimensions } from 'react-native';
+import { View, Text, TextInput, Button, Image, useWindowDimensions, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
@@ -27,6 +27,14 @@ export default function Profile() {
 
   const pickImage = async () => {
     if (!session?.user) return;
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(
+        'Permission required',
+        'Please allow access to your media library to upload a photo.',
+      );
+      return;
+    }
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
