@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { FlatList, TextInput, Pressable } from 'react-native';
+import { FlatList, TextInput, Pressable, Image } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
-import { aiIcebreaker } from '../../lib/api';
+import { aiIcebreaker, aiChatResponse } from '../../lib/api';
 import { sampleMessages, Message } from '../../lib/sample-messages';
+import { sampleProfiles } from '../../lib/sample-data';
+import type { Profile } from '../../lib/types';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 
@@ -19,6 +21,7 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
   const [icebreaker, setIcebreaker] = useState<string | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const colorScheme = useColorScheme() ?? 'light';
 
   useEffect(() => {
@@ -58,14 +61,60 @@ export default function Chat() {
     };
   }, [matchId]);
 
+  useEffect(() => {
+    if (!matchId) return;
+    const p = sampleProfiles.find((pr) => pr.id === matchId);
+    setProfile(p || null);
+  }, [matchId]);
+
   const send = async () => {
     if (!text.trim() || !session?.user?.id || !matchId) return;
+    const userMessage = text;
+
+    if (demoMode) {
+      const newMsg: Message = {
+        id: Date.now().toString(),
+        match_id: matchId,
+        sender: session.user.id,
+        content: userMessage,
+        created_at: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, newMsg]);
+      setText('');
+      try {
+        const reply = await aiChatResponse(matchId, userMessage);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `ai-${Date.now()}`,
+            match_id: matchId,
+            sender: 'ai',
+            content: reply,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+      } catch (e) {
+        console.error(e);
+      }
+      return;
+    }
+
     await supabase.from('messages').insert({
       match_id: matchId,
       sender: session.user.id,
-      content: text,
+      content: userMessage,
     });
     setText('');
+    try {
+      const reply = await aiChatResponse(matchId, userMessage);
+      await supabase.from('messages').insert({
+        match_id: matchId,
+        sender: 'ai',
+        content: reply,
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const deleteChat = async () => {
@@ -90,6 +139,29 @@ export default function Chat() {
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
+      {profile && (
+        <View style={{ marginBottom: 16 }}>
+          <FlatList
+            data={profile.photos}
+            horizontal
+            keyExtractor={(item, index) => `${item}-${index}`}
+            renderItem={({ item }) => (
+              <Image
+                source={{ uri: item }}
+                style={{ width: 200, height: 200, borderRadius: 12, marginRight: 8 }}
+              />
+            )}
+            showsHorizontalScrollIndicator={false}
+            style={{ marginBottom: 8 }}
+          />
+          <Text style={{ fontSize: 20, fontWeight: '600' }}>{profile.name}</Text>
+          {profile.bio && (
+            <Text style={{ color: Colors[colorScheme].muted, marginTop: 4 }}>
+              {profile.bio}
+            </Text>
+          )}
+        </View>
+      )}
       <View style={{ flexDirection: 'row', gap: 8, marginBottom: 16 }}>
         <Pressable
           onPress={deleteChat}

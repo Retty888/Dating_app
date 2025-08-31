@@ -52,3 +52,11 @@ export async function aiIcebreaker(matchId: string) {
   if (error) throw error;
   return (data as { icebreaker: string }).icebreaker;
 }
+
+export async function aiChatResponse(matchId: string, message: string) {
+  const { data, error } = await supabase.functions.invoke('ai/chat', {
+    body: { matchId, message },
+  });
+  if (error) throw error;
+  return (data as { reply: string }).reply;
+}
