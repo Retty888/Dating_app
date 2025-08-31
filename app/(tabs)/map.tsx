@@ -1,4 +1,5 @@
-import { View, useWindowDimensions } from 'react-native';
+import { useWindowDimensions } from 'react-native';
+import { View } from '@/components/Themed';
 import MapView, { Marker } from 'react-native-maps';
 import { sampleProfiles } from '../../lib/sample-data';
 

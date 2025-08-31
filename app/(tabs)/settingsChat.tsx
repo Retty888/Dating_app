@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, Switch } from 'react-native';
+import { Switch } from 'react-native';
+import { Text, View } from '@/components/Themed';
 import ChatSection from '@/components/ChatSection';
 import settingsAgent from '@/lib/settingsAgent';
 

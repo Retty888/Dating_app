@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { AuthProvider } from '../lib/auth';
-import { View, useWindowDimensions } from 'react-native';
+import { useWindowDimensions } from 'react-native';
+import { View } from '@/components/Themed';
 import Sidebar from '../components/Sidebar';
 
 export default function RootLayout() {
