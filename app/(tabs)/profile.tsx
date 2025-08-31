@@ -4,6 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { sampleProfiles } from '../../lib/sample-data';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 export default function Profile() {
   const { session } = useAuth();
@@ -12,6 +14,7 @@ export default function Profile() {
   const [bio, setBio] = useState('');
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
+  const colorScheme = useColorScheme() ?? 'light';
 
   useEffect(() => {
     if (!session?.user) return;
@@ -127,20 +130,20 @@ export default function Profile() {
       )}
       <Button title="Upload photo" onPress={pickImage} />
       {photoUrl && (
-        <Button title="Удалить фото" color="#ff6b6b" onPress={deletePhoto} />
+        <Button title="Удалить фото" color={Colors[colorScheme].danger} onPress={deletePhoto} />
       )}
       <TextInput
         placeholder="Имя"
         value={name}
         onChangeText={setName}
-        style={{ backgroundColor: '#111', padding: 12, borderRadius: 12 }}
+        style={{ backgroundColor: Colors[colorScheme].inputBackground, padding: 12, borderRadius: 12 }}
       />
       <TextInput
         placeholder="О себе"
         value={bio}
         onChangeText={setBio}
         multiline
-        style={{ backgroundColor: '#111', padding: 12, borderRadius: 12, minHeight: 100 }}
+        style={{ backgroundColor: Colors[colorScheme].inputBackground, padding: 12, borderRadius: 12, minHeight: 100 }}
       />
       <Button title="Сохранить" onPress={async () => {
         if (!session?.user) return;
@@ -158,7 +161,7 @@ export default function Profile() {
           Alert.alert('Success', 'Профиль сохранён');
         }
       }} />
-      <Button title="Выйти из профиля" color="#ff6b6b" onPress={() => supabase.auth.signOut()} />
+      <Button title="Выйти из профиля" color={Colors[colorScheme].danger} onPress={() => supabase.auth.signOut()} />
     </View>
   );
 }

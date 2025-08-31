@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { View, Text, TextInput, Pressable, Alert } from 'react-native';
 import * as Linking from 'expo-linking';
 import supabase from '../../lib/supabase';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
+  const colorScheme = useColorScheme() ?? 'light';
 
   return (
     <View style={{ flex: 1, padding: 16, justifyContent: 'center', gap: 12 }}>
@@ -15,7 +18,7 @@ export default function SignIn() {
         autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
-        style={{ backgroundColor: '#111', padding: 12, borderRadius: 12 }}
+        style={{ backgroundColor: Colors[colorScheme].inputBackground, padding: 12, borderRadius: 12 }}
       />
       <Pressable
         onPress={async () => {
@@ -30,9 +33,9 @@ export default function SignIn() {
             Alert.alert('Проверьте почту', 'Мы отправили вам ссылку для входа.');
           }
         }}
-        style={{ padding: 12, borderRadius: 12, backgroundColor: '#5dbea3' }}
+        style={{ padding: 12, borderRadius: 12, backgroundColor: Colors[colorScheme].primary }}
       >
-        <Text>Отправить код</Text>
+        <Text style={{ color: Colors[colorScheme].text }}>Отправить код</Text>
       </Pressable>
     </View>
   );

@@ -1,5 +1,7 @@
 import React from 'react';
 import { FlatList, TextInput, Pressable, View, Text, StyleSheet } from 'react-native';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from './useColorScheme';
 
 interface Message {
   id: string;
@@ -18,6 +20,7 @@ interface ChatSectionProps {
 }
 
 export default function ChatSection({ state, setState, extra }: ChatSectionProps) {
+  const colorScheme = useColorScheme() ?? 'light';
   const handleSend = () => {
     const trimmed = state.input.trim();
     if (!trimmed) return;
@@ -40,13 +43,16 @@ export default function ChatSection({ state, setState, extra }: ChatSectionProps
       {extra}
       <View style={styles.inputRow}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderColor: Colors[colorScheme].muted }]}
           value={state.input}
           onChangeText={(text) => setState((prev) => ({ ...prev, input: text }))}
           placeholder="Type a message"
         />
-        <Pressable style={styles.button} onPress={handleSend}>
-          <Text style={styles.buttonText}>Send</Text>
+        <Pressable
+          style={[styles.button, { backgroundColor: Colors[colorScheme].primary }]}
+          onPress={handleSend}
+        >
+          <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Send</Text>
         </Pressable>
       </View>
     </View>
@@ -72,7 +78,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -81,11 +86,9 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: '#007bff',
     borderRadius: 4,
   },
   buttonText: {
-    color: '#fff',
     fontWeight: 'bold',
   },
 });

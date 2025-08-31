@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { View, Text, Switch, Button, useWindowDimensions } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { loadPreferences, savePreferences, resetPreferences, Preferences } from '../../lib/preferences';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 export default function Settings() {
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
+  const colorScheme = useColorScheme() ?? 'light';
 
   const [prefs, setPrefs] = useState<Preferences>({
     radius: 10,
@@ -30,7 +33,7 @@ export default function Settings() {
       <Picker
         selectedValue={prefs.radius}
         onValueChange={(value) => setPrefs({ ...prefs, radius: value })}
-        style={{ backgroundColor: '#111', borderRadius: 12 }}
+        style={{ backgroundColor: Colors[colorScheme].inputBackground, borderRadius: 12 }}
       >
         <Picker.Item label="5 km" value={5} />
         <Picker.Item label="10 km" value={10} />
@@ -42,7 +45,7 @@ export default function Settings() {
       <Picker
         selectedValue={prefs.goal}
         onValueChange={(value) => setPrefs({ ...prefs, goal: value })}
-        style={{ backgroundColor: '#111', borderRadius: 12 }}
+        style={{ backgroundColor: Colors[colorScheme].inputBackground, borderRadius: 12 }}
       >
         <Picker.Item label="Serious relationship" value="serious" />
         <Picker.Item label="Casual dating" value="casual" />
