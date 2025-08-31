@@ -1,5 +1,7 @@
 import { View, Text, Pressable, Image, useWindowDimensions } from 'react-native';
 import { useState, useEffect } from 'react';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 import { useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { fetchCandidates } from '../../lib/api';
@@ -12,6 +14,7 @@ export default function Discover() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
+  const colorScheme = useColorScheme() ?? 'light';
 
   useEffect(() => {
     fetchCandidates().then(setCandidates).catch(() => setCandidates([]));
@@ -58,13 +61,18 @@ export default function Discover() {
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text style={{ fontSize: 24, fontWeight: '600' }}>Discover</Text>
         <Pressable onPress={() => router.push('/(tabs)/map')}>
-          <Text style={{ color: '#5dbea3' }}>Map</Text>
+          <Text style={{ color: Colors[colorScheme].primary }}>Map</Text>
         </Pressable>
       </View>
       {c ? (
         <View
           style={[
-            { padding: 16, borderRadius: 16, backgroundColor: '#222', width: '100%' },
+            {
+              padding: 16,
+              borderRadius: 16,
+              backgroundColor: Colors[colorScheme].inputBackground,
+              width: '100%',
+            },
             isDesktop && { maxWidth: 600, alignSelf: 'center' },
           ]}
         >
@@ -81,7 +89,7 @@ export default function Discover() {
                 height: 300,
                 borderRadius: 16,
                 marginBottom: 8,
-                backgroundColor: '#333',
+                backgroundColor: Colors[colorScheme].inputBackground,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
@@ -103,15 +111,15 @@ export default function Discover() {
       <View style={{ flexDirection: 'row', gap: 12 }}>
         <Pressable
           onPress={() => setI((x) => Math.min(x + 1, candidates.length))}
-          style={{ padding: 12, backgroundColor: '#444', borderRadius: 12 }}
+          style={{ padding: 12, backgroundColor: Colors[colorScheme].inputBackground, borderRadius: 12 }}
         >
-          <Text>Skip</Text>
+          <Text style={{ color: Colors[colorScheme].text }}>Skip</Text>
         </Pressable>
         <Pressable
           onPress={handleLike}
-          style={{ padding: 12, backgroundColor: '#5dbea3', borderRadius: 12 }}
+          style={{ padding: 12, backgroundColor: Colors[colorScheme].primary, borderRadius: 12 }}
         >
-          <Text>Like</Text>
+          <Text style={{ color: Colors[colorScheme].text }}>Like</Text>
         </Pressable>
       </View>
       {showMatch && (
@@ -121,7 +129,7 @@ export default function Discover() {
             top: 0,
             left: 0,
             right: 0,
-            backgroundColor: '#5dbea3',
+            backgroundColor: Colors[colorScheme].primary,
             padding: 12,
             alignItems: 'center',
           }}
