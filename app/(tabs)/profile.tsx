@@ -3,10 +3,13 @@ import { View, Text, TextInput, Button, Image, useWindowDimensions, Alert } from
 import * as ImagePicker from 'expo-image-picker';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
+import { sampleProfiles } from '../../lib/sample-data';
 
 export default function Profile() {
   const { session } = useAuth();
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
 
@@ -23,6 +26,38 @@ export default function Profile() {
           setPhotoUrl(data[0].url);
         }
       });
+
+    const loadProfile = async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('name, bio')
+        .eq('id', session.user.id)
+        .maybeSingle();
+      if (error) {
+        console.error(error);
+        return;
+      }
+      if (data) {
+        setName(data.name ?? '');
+        setBio(data.bio ?? '');
+      } else {
+        const sample = sampleProfiles[0];
+        setName(sample.name);
+        setBio(sample.bio ?? '');
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert({
+            id: session.user.id,
+            name: sample.name,
+            bio: sample.bio,
+          });
+        if (insertError) {
+          console.error(insertError);
+        }
+      }
+    };
+
+    loadProfile();
   }, [session]);
 
   const pickImage = async () => {
@@ -83,13 +118,33 @@ export default function Profile() {
       <Button title="Upload photo" onPress={pickImage} />
       <TextInput
         placeholder="Имя"
+        value={name}
+        onChangeText={setName}
         style={{ backgroundColor: '#111', padding: 12, borderRadius: 12 }}
       />
       <TextInput
         placeholder="О себе"
+        value={bio}
+        onChangeText={setBio}
         multiline
         style={{ backgroundColor: '#111', padding: 12, borderRadius: 12, minHeight: 100 }}
       />
+      <Button title="Сохранить" onPress={async () => {
+        if (!session?.user) return;
+        const { error } = await supabase
+          .from('profiles')
+          .upsert({
+            id: session.user.id,
+            name,
+            bio,
+          });
+        if (error) {
+          console.error(error);
+          Alert.alert('Error', 'Не удалось сохранить профиль');
+        } else {
+          Alert.alert('Success', 'Профиль сохранён');
+        }
+      }} />
     </View>
   );
 }
