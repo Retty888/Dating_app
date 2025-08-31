@@ -15,7 +15,7 @@ export default function Sidebar() {
   const colorScheme = useColorScheme() ?? 'light';
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors[colorScheme].sidebar }]}>
+    <View style={[styles.container, { backgroundColor: Colors[colorScheme].sidebarBackground }]}> 
       {items.map((item) => {
         const active = pathname === item.href;
         return (
