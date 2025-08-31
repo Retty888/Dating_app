@@ -99,7 +99,9 @@ export default function Chat() {
             backgroundColor: Colors[colorScheme].danger,
           }}
         >
-          <Text style={{ textAlign: 'center' }}>Удалить сообщение</Text>
+          <Text style={{ textAlign: 'center', color: Colors[colorScheme].text }}>
+            Удалить сообщение
+          </Text>
         </Pressable>
         <Pressable
           onPress={exitChat}
@@ -110,7 +112,9 @@ export default function Chat() {
             backgroundColor: Colors[colorScheme].primary,
           }}
         >
-          <Text style={{ textAlign: 'center' }}>Выход из чата</Text>
+          <Text style={{ textAlign: 'center', color: Colors[colorScheme].text }}>
+            Выход из чата
+          </Text>
         </Pressable>
       </View>
       <FlatList
@@ -152,12 +156,13 @@ export default function Chat() {
           value={text}
           onChangeText={setText}
           placeholder="Сообщение"
+          placeholderTextColor={Colors[colorScheme].muted}
         />
         <Pressable
           onPress={send}
           style={{ padding: 12, borderRadius: 12, backgroundColor: Colors[colorScheme].primary }}
         >
-          <Text>Отправить</Text>
+          <Text style={{ color: Colors[colorScheme].text }}>Отправить</Text>
         </Pressable>
       </View>
     </View>
