@@ -1,4 +1,4 @@
-import { Pressable, Image, useWindowDimensions } from 'react-native';
+import { Pressable, Image, useWindowDimensions, Alert } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { useState, useEffect } from 'react';
 import Colors from '@/constants/Colors';
@@ -21,8 +21,19 @@ export default function Discover() {
     fetchCandidates().then(setCandidates).catch(() => setCandidates([]));
   }, []);
 
+  useEffect(() => {
+    if (i >= candidates.length && candidates.length > 0) {
+      Alert.alert('Конец списка', 'Вы просмотрели всех кандидатов');
+    }
+  }, [i, candidates.length]);
+
   const c = candidates[i];
   const photo = c?.photos?.[0];
+
+  const resetCandidates = () => {
+    setI(0);
+    fetchCandidates().then(setCandidates).catch(() => setCandidates([]));
+  };
 
   const handleLike = async () => {
     if (!c) return;
@@ -107,22 +118,44 @@ export default function Discover() {
           )}
         </View>
       ) : (
-        <Text>Больше кандидатов нет</Text>
+        <View
+          style={[
+            {
+              padding: 16,
+              borderRadius: 16,
+              backgroundColor: Colors[colorScheme].inputBackground,
+              width: '100%',
+              alignItems: 'center',
+              gap: 12,
+            },
+            isDesktop && { maxWidth: 600, alignSelf: 'center' },
+          ]}
+        >
+          <Text>Больше кандидатов нет</Text>
+          <Pressable
+            onPress={resetCandidates}
+            style={{ padding: 12, backgroundColor: Colors[colorScheme].primary, borderRadius: 12 }}
+          >
+            <Text style={{ color: '#fff' }}>Начать заново</Text>
+          </Pressable>
+        </View>
       )}
-      <View style={{ flexDirection: 'row', gap: 12 }}>
-        <Pressable
-          onPress={() => setI((x) => Math.min(x + 1, candidates.length))}
-          style={{ padding: 12, backgroundColor: Colors[colorScheme].inputBackground, borderRadius: 12 }}
-        >
-          <Text>Skip</Text>
-        </Pressable>
-        <Pressable
-          onPress={handleLike}
-          style={{ padding: 12, backgroundColor: Colors[colorScheme].primary, borderRadius: 12 }}
-        >
-          <Text>Like</Text>
-        </Pressable>
-      </View>
+      {c && (
+        <View style={{ flexDirection: 'row', gap: 12 }}>
+          <Pressable
+            onPress={() => setI((x) => Math.min(x + 1, candidates.length))}
+            style={{ padding: 12, backgroundColor: Colors[colorScheme].inputBackground, borderRadius: 12 }}
+          >
+            <Text>Skip</Text>
+          </Pressable>
+          <Pressable
+            onPress={handleLike}
+            style={{ padding: 12, backgroundColor: Colors[colorScheme].primary, borderRadius: 12 }}
+          >
+            <Text>Like</Text>
+          </Pressable>
+        </View>
+      )}
       {showMatch && (
         <View
           style={{
