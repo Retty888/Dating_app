@@ -4,14 +4,9 @@ import { useLocalSearchParams } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { aiIcebreaker } from '../../lib/api';
+import { sampleMessages, Message } from '../../lib/sample-messages';
 
-interface Message {
-  id: string;
-  match_id: string;
-  sender: string;
-  content: string;
-  created_at: string;
-}
+const demoMode = process.env.EXPO_PUBLIC_DEMO_MODE === 'true';
 
 export default function Chat() {
   const { id } = useLocalSearchParams();
@@ -24,13 +19,22 @@ export default function Chat() {
   useEffect(() => {
     if (!matchId) return;
 
+    if (demoMode) {
+      setMessages(sampleMessages.filter((m) => m.match_id === matchId));
+      return;
+    }
+
     supabase
       .from('messages')
       .select('*')
       .eq('match_id', matchId)
       .order('created_at')
       .then(({ data }) => {
-        setMessages((data as Message[]) || []);
+        if (!data || data.length === 0) {
+          setMessages(sampleMessages.filter((m) => m.match_id === matchId));
+        } else {
+          setMessages(data as Message[]);
+        }
       });
 
     const channel = supabase
@@ -84,7 +88,13 @@ export default function Chat() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={{ marginBottom: 8 }}>
-            <Text>{item.content}</Text>
+            {item.id === 'ai-icebreaker' ? (
+              <Text style={{ fontStyle: 'italic', color: '#888' }}>
+                Пример: {item.content}
+              </Text>
+            ) : (
+              <Text>{item.content}</Text>
+            )}
           </View>
         )}
       />
