@@ -55,7 +55,12 @@ export default function Discover() {
         isDesktop && { maxWidth: 600, alignSelf: 'center' },
       ]}
     >
-      <Text style={{ fontSize: 24, fontWeight: '600' }}>Discover</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Text style={{ fontSize: 24, fontWeight: '600' }}>Discover</Text>
+        <Pressable onPress={() => router.push('/(tabs)/map')}>
+          <Text style={{ color: '#5dbea3' }}>Map</Text>
+        </Pressable>
+      </View>
       {c ? (
         <View
           style={[
