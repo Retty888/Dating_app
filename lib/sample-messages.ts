@@ -35,4 +35,18 @@ export const sampleMessages: Message[] = [
     content: 'Да, очень!',
     created_at: '2024-01-02T09:10:00Z',
   },
+  {
+    id: '5',
+    match_id: '3',
+    sender: 'user1',
+    content: 'Привет, Мария! Чем занимаешься?',
+    created_at: '2024-01-03T08:00:00Z',
+  },
+  {
+    id: '6',
+    match_id: '3',
+    sender: 'user4',
+    content: 'Привет! Сейчас иду на тренировку.',
+    created_at: '2024-01-03T08:05:00Z',
+  },
 ];
