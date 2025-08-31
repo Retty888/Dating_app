@@ -1,13 +1,13 @@
-const tintColorLight = '#FFC0CB';
-const tintColorDark = '#FFB6C1';
-const dangerColorLight = '#FF8FA3';
-const dangerColorDark = '#FF748C';
+const tintColorLight = '#FFB3C6';
+const tintColorDark = '#FF8DAA';
+const dangerColorLight = '#FF9AA2';
+const dangerColorDark = '#FF8090';
 const sidebarBackgroundLight = '#FFF5F7';
 const sidebarBackgroundDark = '#2B1C23';
 const sidebarActiveLight = tintColorLight;
 const sidebarActiveDark = tintColorDark;
-const inputBackgroundLight = '#F0F0F0';
-const inputBackgroundDark = '#111';
+const inputBackgroundLight = '#FDE4EC';
+const inputBackgroundDark = '#4A2C3A';
 const mutedColor = '#888';
 
 export default {

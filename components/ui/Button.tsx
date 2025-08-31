@@ -10,19 +10,20 @@ export default function Button({ title, onPress, style }: { title: string; onPre
   return (
     <Pressable
       onPress={onPress}
-      style={[
+      style={({ pressed }) => [
         {
           padding: 12,
           borderRadius: 12,
           backgroundColor: Colors[colorScheme].primary,
           alignItems: 'center',
           alignSelf: 'flex-start',
+          opacity: pressed ? 0.8 : 1,
         },
         isDesktop && { alignSelf: 'center', width: '100%', maxWidth: 200 },
         style,
       ]}
     >
-      <Text style={{ fontWeight: '600' }}>{title}</Text>
+      <Text style={{ fontWeight: '600', color: Colors[colorScheme].text }}>{title}</Text>
     </Pressable>
   );
 }
