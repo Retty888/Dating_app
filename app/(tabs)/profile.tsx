@@ -7,6 +7,7 @@ import { sampleProfiles } from '../../lib/sample-data';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { Text, View } from '@/components/Themed';
+import ProfileAIChat from '@/components/ProfileAIChat';
 
 export default function Profile() {
   const { session } = useAuth();
@@ -169,6 +170,7 @@ export default function Profile() {
         multiline
         style={{ backgroundColor: Colors[colorScheme].inputBackground, padding: 12, borderRadius: 12, minHeight: 100 }}
       />
+      <ProfileAIChat onNameChange={setName} onBioChange={setBio} />
       <Button title="Сохранить" onPress={async () => {
         if (!session?.user) return;
         const { error } = await supabase
