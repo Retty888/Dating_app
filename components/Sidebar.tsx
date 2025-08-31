@@ -1,5 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Link, usePathname } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 
 const items = [
   { href: '/', label: 'Discover' },
@@ -10,17 +10,20 @@ const items = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
       {items.map((item) => {
         const active = pathname === item.href;
         return (
-          <Link key={item.href} href={item.href} asChild>
-            <Pressable style={[styles.item, active && styles.activeItem]}>
-              <Text style={styles.itemText}>{item.label}</Text>
-            </Pressable>
-          </Link>
+          <Pressable
+            key={item.href}
+            onPress={() => router.push(item.href)}
+            style={[styles.item, active && styles.activeItem]}
+          >
+            <Text style={styles.itemText}>{item.label}</Text>
+          </Pressable>
         );
       })}
     </View>

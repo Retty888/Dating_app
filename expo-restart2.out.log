@@ -1,0 +1,30 @@
+Networking has been disabled
+Starting project at C:\Users\User\Dating_app
+Metro is running in CI mode, reloads are disabled. Remove CI=true to enable watch mode.
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Waiting on http://localhost:19013
+Logs for your project will appear below.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+| expo-router/babel is deprecated in favor of babel-preset-expo in SDK 50. To fix the issue, remove "expo-router/babel" from "plugins" in your babel.config.js file.
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓░░░░░░░░░░ 38.7% (212/341)
+Web Bundling failed 5963ms node_modules\expo-router\entry.js (967 modules)
+ ERROR  Error: Importing native-only module "react-native/Libraries/Utilities/codegenNativeCommands" on web from: C:\Users\User\Dating_app\node_modules\react-native-maps\src\MapMarkerNativeComponent.ts
+    at resolver (C:\Users\User\Dating_app\node_modules\@expo\cli\src\start\server\metro\withMetroMultiPlatform.ts:633:19)
+    at firstResolver (C:\Users\User\Dating_app\node_modules\@expo\cli\src\start\server\metro\withMetroResolvers.ts:76:29)
+    at firstResolver (C:\Users\User\Dating_app\node_modules\@expo\cli\src\start\server\metro\withMetroResolvers.ts:108:16)
+    at resolveRequest (C:\Users\User\Dating_app\node_modules\@expo\cli\src\start\server\metro\withMetroResolvers.ts:137:16)
+    at Object.resolve (C:\Users\User\Dating_app\node_modules\metro-resolver\src\resolve.js:36:12)
+    at ModuleResolver.resolveDependency (C:\Users\User\Dating_app\node_modules\metro\src\node-haste\DependencyGraph\ModuleResolution.js:74:31)
+    at DependencyGraph.resolveDependency (C:\Users\User\Dating_app\node_modules\metro\src\node-haste\DependencyGraph.js:239:43)
+    at C:\Users\User\Dating_app\node_modules\metro\src\lib\transformHelpers.js:161:21
+    at resolveDependencies (C:\Users\User\Dating_app\node_modules\metro\src\DeltaBundler\buildSubgraph.js:43:25)
+    at visit (C:\Users\User\Dating_app\node_modules\metro\src\DeltaBundler\buildSubgraph.js:81:30)
