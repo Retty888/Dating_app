@@ -1,8 +1,9 @@
 import React from 'react';
-import { FlatList, TextInput, View, Text, StyleSheet } from 'react-native';
+import { FlatList, TextInput, StyleSheet } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
 import Button from './ui/Button';
+import { Text, View } from './Themed';
 
 interface Message {
   id: string;

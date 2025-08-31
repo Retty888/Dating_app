@@ -1,6 +1,7 @@
-import { Pressable, Text, ViewStyle, useWindowDimensions } from 'react-native';
+import { Pressable, ViewStyle, useWindowDimensions } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '../useColorScheme';
+import { Text } from '../Themed';
 
 export default function Button({ title, onPress, style }: { title: string; onPress?: () => void; style?: ViewStyle }) {
   const { width } = useWindowDimensions();
@@ -23,7 +24,7 @@ export default function Button({ title, onPress, style }: { title: string; onPre
         style,
       ]}
     >
-      <Text style={{ fontWeight: '600', color: Colors[colorScheme].text }}>{title}</Text>
+      <Text style={{ fontWeight: '600' }}>{title}</Text>
     </Pressable>
   );
 }

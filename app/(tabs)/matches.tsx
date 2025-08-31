@@ -1,4 +1,5 @@
-import { View, Text, useWindowDimensions } from 'react-native';
+import { useWindowDimensions } from 'react-native';
+import { Text, View } from '@/components/Themed';
 
 export default function Matches() {
   const { width } = useWindowDimensions();

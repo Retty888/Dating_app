@@ -1,7 +1,8 @@
-import { View, Text, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
+import { Text, View } from '@/components/Themed';
 
 export default function Onboarding() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -13,7 +14,7 @@ export default function Onboarding() {
         <Pressable
           style={{ padding: 12, borderRadius: 12, backgroundColor: Colors[colorScheme].primary }}
         >
-          <Text style={{ color: Colors[colorScheme].text }}>Продолжить</Text>
+          <Text>Продолжить</Text>
         </Pressable>
       </Link>
     </View>

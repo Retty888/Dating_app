@@ -1,4 +1,5 @@
-import { View, Text, Pressable, Image, useWindowDimensions } from 'react-native';
+import { Pressable, Image, useWindowDimensions } from 'react-native';
+import { Text, View } from '@/components/Themed';
 import { useState, useEffect } from 'react';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -113,13 +114,13 @@ export default function Discover() {
           onPress={() => setI((x) => Math.min(x + 1, candidates.length))}
           style={{ padding: 12, backgroundColor: Colors[colorScheme].inputBackground, borderRadius: 12 }}
         >
-          <Text style={{ color: Colors[colorScheme].text }}>Skip</Text>
+          <Text>Skip</Text>
         </Pressable>
         <Pressable
           onPress={handleLike}
           style={{ padding: 12, backgroundColor: Colors[colorScheme].primary, borderRadius: 12 }}
         >
-          <Text style={{ color: Colors[colorScheme].text }}>Like</Text>
+          <Text>Like</Text>
         </Pressable>
       </View>
       {showMatch && (

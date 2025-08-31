@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, Pressable } from 'react-native';
+import { FlatList, TextInput, Pressable } from 'react-native';
+import { Text, View } from '@/components/Themed';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
@@ -99,9 +100,7 @@ export default function Chat() {
             backgroundColor: Colors[colorScheme].danger,
           }}
         >
-          <Text style={{ textAlign: 'center', color: Colors[colorScheme].text }}>
-            Удалить сообщение
-          </Text>
+          <Text style={{ textAlign: 'center' }}>Удалить сообщение</Text>
         </Pressable>
         <Pressable
           onPress={exitChat}
@@ -112,9 +111,7 @@ export default function Chat() {
             backgroundColor: Colors[colorScheme].primary,
           }}
         >
-          <Text style={{ textAlign: 'center', color: Colors[colorScheme].text }}>
-            Выход из чата
-          </Text>
+          <Text style={{ textAlign: 'center' }}>Выход из чата</Text>
         </Pressable>
       </View>
       <FlatList
@@ -162,7 +159,7 @@ export default function Chat() {
           onPress={send}
           style={{ padding: 12, borderRadius: 12, backgroundColor: Colors[colorScheme].primary }}
         >
-          <Text style={{ color: Colors[colorScheme].text }}>Отправить</Text>
+          <Text>Отправить</Text>
         </Pressable>
       </View>
     </View>

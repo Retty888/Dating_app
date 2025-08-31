@@ -1,7 +1,8 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { Link, usePathname } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
+import { Text, View } from './Themed';
 
 const items = [
   { href: '/', label: 'Discover' },
@@ -23,9 +24,7 @@ export default function Sidebar() {
             <Pressable
               style={[styles.item, active && { backgroundColor: Colors[colorScheme].sidebarActive }]}
             >
-              <Text style={[styles.itemText, { color: Colors[colorScheme].text }]}>
-                {item.label}
-              </Text>
+              <Text style={styles.itemText}>{item.label}</Text>
             </Pressable>
           </Link>
         );

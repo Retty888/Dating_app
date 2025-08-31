@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Switch, Button, useWindowDimensions } from 'react-native';
+import { Switch, Button, useWindowDimensions } from 'react-native';
+import { Text, View } from '@/components/Themed';
 import { Picker } from '@react-native-picker/picker';
 import { loadPreferences, savePreferences, resetPreferences, Preferences } from '../../lib/preferences';
 import Colors from '@/constants/Colors';

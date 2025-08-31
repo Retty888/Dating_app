@@ -1,6 +1,7 @@
-import { View, ViewStyle, useWindowDimensions } from 'react-native';
+import { ViewStyle, useWindowDimensions } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '../useColorScheme';
+import { View } from '../Themed';
 
 export default function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
   const { width } = useWindowDimensions();

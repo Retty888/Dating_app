@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Image, useWindowDimensions, Alert } from 'react-native';
+import { TextInput, Button, Image, useWindowDimensions, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { sampleProfiles } from '../../lib/sample-data';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
+import { Text, View } from '@/components/Themed';
 
 export default function Profile() {
   const { session } = useAuth();

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import { TextInput, Pressable, Alert } from 'react-native';
 import * as Linking from 'expo-linking';
 import supabase from '../../lib/supabase';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
+import { Text, View } from '@/components/Themed';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -35,7 +36,7 @@ export default function SignIn() {
         }}
         style={{ padding: 12, borderRadius: 12, backgroundColor: Colors[colorScheme].primary }}
       >
-        <Text style={{ color: Colors[colorScheme].text }}>Отправить код</Text>
+        <Text>Отправить код</Text>
       </Pressable>
     </View>
   );
