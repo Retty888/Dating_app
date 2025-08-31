@@ -5,6 +5,8 @@ import supabase from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { aiIcebreaker } from '../../lib/api';
 import { sampleMessages, Message } from '../../lib/sample-messages';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 const demoMode = process.env.EXPO_PUBLIC_DEMO_MODE === 'true';
 
@@ -16,6 +18,7 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
   const [icebreaker, setIcebreaker] = useState<string | null>(null);
+  const colorScheme = useColorScheme() ?? 'light';
 
   useEffect(() => {
     if (!matchId) return;
@@ -93,7 +96,7 @@ export default function Chat() {
             flex: 1,
             padding: 12,
             borderRadius: 12,
-            backgroundColor: '#ff6b6b',
+            backgroundColor: Colors[colorScheme].danger,
           }}
         >
           <Text style={{ textAlign: 'center' }}>Удалить сообщение</Text>
@@ -104,7 +107,7 @@ export default function Chat() {
             flex: 1,
             padding: 12,
             borderRadius: 12,
-            backgroundColor: '#5dbea3',
+            backgroundColor: Colors[colorScheme].primary,
           }}
         >
           <Text style={{ textAlign: 'center' }}>Выход из чата</Text>
@@ -129,7 +132,7 @@ export default function Chat() {
         renderItem={({ item }) => (
           <View style={{ marginBottom: 8 }}>
             {item.id === 'ai-icebreaker' ? (
-              <Text style={{ fontStyle: 'italic', color: '#888' }}>
+              <Text style={{ fontStyle: 'italic', color: Colors[colorScheme].muted }}>
                 Пример: {item.content}
               </Text>
             ) : (
@@ -140,14 +143,19 @@ export default function Chat() {
       />
       <View style={{ flexDirection: 'row', gap: 8, marginTop: 16 }}>
         <TextInput
-          style={{ flex: 1, backgroundColor: '#111', padding: 12, borderRadius: 12 }}
+          style={{
+            flex: 1,
+            backgroundColor: Colors[colorScheme].inputBackground,
+            padding: 12,
+            borderRadius: 12,
+          }}
           value={text}
           onChangeText={setText}
           placeholder="Сообщение"
         />
         <Pressable
           onPress={send}
-          style={{ padding: 12, borderRadius: 12, backgroundColor: '#5dbea3' }}
+          style={{ padding: 12, borderRadius: 12, backgroundColor: Colors[colorScheme].primary }}
         >
           <Text>Отправить</Text>
         </Pressable>

@@ -1,5 +1,7 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Link, usePathname } from 'expo-router';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from './useColorScheme';
 
 const items = [
   { href: '/', label: 'Discover' },
@@ -10,15 +12,20 @@ const items = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const colorScheme = useColorScheme() ?? 'light';
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: Colors[colorScheme].sidebar }]}>
       {items.map((item) => {
         const active = pathname === item.href;
         return (
           <Link key={item.href} href={item.href} asChild>
-            <Pressable style={[styles.item, active && styles.activeItem]}>
-              <Text style={styles.itemText}>{item.label}</Text>
+            <Pressable
+              style={[styles.item, active && { backgroundColor: Colors[colorScheme].sidebarActive }]}
+            >
+              <Text style={[styles.itemText, { color: Colors[colorScheme].text }]}>
+                {item.label}
+              </Text>
             </Pressable>
           </Link>
         );
@@ -30,18 +37,13 @@ export default function Sidebar() {
 const styles = StyleSheet.create({
   container: {
     width: 280,
-    backgroundColor: '#202123',
     paddingTop: 24,
   },
   item: {
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
-  activeItem: {
-    backgroundColor: '#343541',
-  },
   itemText: {
-    color: '#fff',
     fontSize: 16,
   },
 });
