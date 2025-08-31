@@ -1,7 +1,8 @@
 import React from 'react';
-import { FlatList, TextInput, Pressable, View, Text, StyleSheet } from 'react-native';
+import { FlatList, TextInput, View, Text, StyleSheet } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
+import Button from './ui/Button';
 
 interface Message {
   id: string;
@@ -48,12 +49,7 @@ export default function ChatSection({ state, setState, extra }: ChatSectionProps
           onChangeText={(text) => setState((prev) => ({ ...prev, input: text }))}
           placeholder="Type a message"
         />
-        <Pressable
-          style={[styles.button, { backgroundColor: Colors[colorScheme].primary }]}
-          onPress={handleSend}
-        >
-          <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Send</Text>
-        </Pressable>
+        <Button title="Send" onPress={handleSend} style={styles.button} />
       </View>
     </View>
   );
@@ -87,9 +83,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 4,
-  },
-  buttonText: {
-    fontWeight: 'bold',
   },
 });
 
