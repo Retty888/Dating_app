@@ -14,6 +14,7 @@ export default function Profile() {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
+  const [facts, setFacts] = useState<string[]>([]);
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
   const colorScheme = useColorScheme() ?? 'light';
@@ -170,7 +171,14 @@ export default function Profile() {
         multiline
         style={{ backgroundColor: Colors[colorScheme].inputBackground, padding: 12, borderRadius: 12, minHeight: 100 }}
       />
-      <ProfileAIChat onNameChange={setName} onBioChange={setBio} />
+      {facts.length > 0 && (
+        <View style={{ gap: 4 }}>
+          {facts.map((fact, idx) => (
+            <Text key={idx}>• {fact}</Text>
+          ))}
+        </View>
+      )}
+      <ProfileAIChat onNameChange={setName} onBioChange={setBio} onFactsChange={setFacts} />
       <Button title="Сохранить" onPress={async () => {
         if (!session?.user) return;
         const { error } = await supabase
